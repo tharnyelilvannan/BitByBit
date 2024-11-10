@@ -104,7 +104,7 @@ class PasswordSafe {
 
                                 setUserToPassword(userName, websiteName, websitePassword);
 
-                                System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                                System.out.println("\nWould you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
                                 signOut = scanner.nextInt();
 
                             }
@@ -113,9 +113,6 @@ class PasswordSafe {
                                 System.out.println("Error.");
 
                             } // end of if/else
-
-                            System.out.println("Would you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
-                            exit = scanner.nextInt();
 
                         } // end of while loop
 
@@ -135,6 +132,9 @@ class PasswordSafe {
     
             } // end of try/catch statement
 
+            System.out.println("\nWould you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
+            exit = scanner.nextInt();
+            
         } // end of while loop
 
     } // end of BitByBit method
