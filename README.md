@@ -1,6 +1,4 @@
 # BitByBit
-MEC - Programming - Team Bit-By-Bit - Project Report 
-
 Cybersecurity has become more important than ever in our modern era. As technology becomes increasingly important across different aspects of our lives, its potential security risks only rise. Thus, when storing our personal information, it is incredibly important to have secure passwords to reduce the risks of data breaches compromising our accounts. However, this is often a struggle for the common user, as secure passwords are difficult to come up with and even harder to remember.  
 
 Our team intends to tackle this issue with our program, which is a text-based password management system intended to store and create strong new passwords for its users. The program has no GUI and must be run from the command line. From there, the user can respond to the prompts given to the program and give their responses as indicated in its instructions. 
