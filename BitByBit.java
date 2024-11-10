@@ -57,7 +57,7 @@ class PasswordSafe {
 
                         while (signOut == 0) {
                             
-                            System.out.println("\nWould you like to acess an existing password or add a new password?\nPress 1 to access an existing password.\nPress 2 to add a new password.");
+                            System.out.println("\nWould you like to access an existing password or add a new password?\nPress 1 to access an existing password.\nPress 2 to add a new password.");
                             existingOrNew = scanner.nextInt();
 
                             if (existingOrNew == 1) {
