@@ -29,6 +29,7 @@ class PasswordSafe {
     private int generateOrEnter;
     private String websitePassword;
     private String userName;
+    private boolean success;
 
     // username, website, password
     private static Map<String, Map<String, String>> usernameMap = new HashMap<>();
@@ -84,25 +85,28 @@ class PasswordSafe {
                                 System.out.println("\nWould you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
                                 generateOrEnter = scanner.nextInt();
 
-                                if (generateOrEnter == 1) {
+                                switch (generateOrEnter) {
 
-                                    websitePassword = generateStrongPassword();
-                                    System.out.println(websitePassword);
+                                    case 1:
 
-                                }
-                                else if (generateOrEnter == 2) { 
+                                        websitePassword = generateStrongPassword();
+                                        System.out.println(websitePassword);
+                                        break;
 
-                                    System.out.println("Enter a password: ");
-                                    websitePassword = scanner.next();
+                                    case 2:
 
-                                }
-                                else {
+                                        System.out.println("Enter a password: ");
+                                        websitePassword = scanner.next();
+                                        break;
 
-                                    System.out.println("Error.");
+                                    default:
 
-                                }
+                                        System.out.println("Error.");
+                                        break;
 
-                                setUserToPassword(userName, websiteName, websitePassword);
+                                } // end of switch statement
+
+                                success = setUserToPassword(userName, websiteName, websitePassword);
 
                                 System.out.println("\nWould you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
                                 signOut = scanner.nextInt();
@@ -270,12 +274,12 @@ class PasswordSafe {
         Pattern numberchar = Pattern.compile("\\d");
         boolean complete = false;    
         
-        System.out.println("Please Enter Username: ");
+        System.out.println("\nPlease Enter Username: ");
         username = scanner.next(); // include map check for each username
 
-        while (!complete){
+        while (!complete) {
 
-            System.out.println("Please enter a password\nMust be at least 15 characters long and must include both a special character and a number.");
+            System.out.println("\nPlease enter a password\nMust be at least 15 characters long and must include both a special character and a number.");
             password = scanner.next();
             
             Matcher matcher_s = specialchar.matcher(password);
@@ -314,8 +318,9 @@ class PasswordSafe {
 
                 System.out.println("Please use one of the special characters !@#$%^&* in your password.");
 
-            }
-        }
+            } // end of if/else statement
+
+        } // end of while loop
     
         String[] data = {username, password};
         return data;
@@ -333,40 +338,48 @@ class PasswordSafe {
 
 
     // sets a new website username and password
-    public static void setUserToPassword(String username, String website, String password) {
+    public static boolean setUserToPassword(String username, String website, String password) {
 
-        // if the username already exists, get the map
-        if (usernameMap.containsKey(username)) {
-
+        // if the username already exits, get the map
+        if (usernameMap.containsKey(username)){
             Map userPassword = getUsernameMap(username); // get map
-            userPassword.put(website, password); // generate new key value pair
 
+            // check if website already has a password
+            if (userPassword.containsKey(website)){
+                System.out.println("\nPassword for this website already exists!");
+                return false;
+            }
+            else{ // generate new key value pair
+                userPassword.put(website, password);
+            }
         }
-        else { // if the username does not exist, create a new map
-
+        else{ // if the username does not exist, create a new map
             Map<String, String> userPassword = new HashMap<>(); // make new map
             userPassword.put(website, password); // store website password pair in new map
             usernameMap.put(username, userPassword); // set the userPassword to the corresponding username
-
         }
+        return true;
 
     } // end of setUserToPassword method
 
 
     // fetch the website's corresponding password
-    private static String getWebsitePassword(String website, Map map) {
-
+    private static String getWebsitePassword(String website, Map map) { 
+         
         String password = (String) map.get(website);
         return password;
 
-    } // end of getWebsitePassword
+    }
 
 
     // fetch the username's password
     public static String getUsernamePassword(String username, String website) {
 
-        Map userMap = getUsernameMap(username);
-        String password = getWebsitePassword(website, userMap);
+        if (usernameMap.containsKey(username) == false){
+            return null;
+        }
+        Map userMap = getUsernameMap(username); // get the map for the usernames
+        String password = getWebsitePassword(website, userMap); // get the
         return password;
 
     } // end of getUsernamePassword method
