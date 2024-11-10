@@ -36,8 +36,9 @@ class PasswordSafe {
 
     PasswordSafe() {
 
-        try {
-            while (exit == 0) {
+        while (exit == 0) {
+
+            try {
 
                 System.out.println("\nWould you like to log in or create an account?\nPress 1 for log in.\nPress 2 for create account.");
                 logInOrCreateAccount = scanner.nextInt();
@@ -128,13 +129,13 @@ class PasswordSafe {
 
                 } // end of if/else statement
 
-            } // end of while loop
+            } catch (Exception e) {
 
-        } catch (Exception e) {
+                System.out.println(e.getMessage()); 
+    
+            } // end of try/catch statement
 
-            System.out.println(e.getMessage()); 
-
-        } // end of try/catch method
+        } // end of while loop
 
     } // end of BitByBit method
 
