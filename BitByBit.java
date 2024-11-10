@@ -18,17 +18,17 @@ public class BitByBit {
 class PasswordSafe {
 
     private String generatedPassword = "";
-    String[] usernamePassword;
-    int logInOrCreateAccount = 0;
+    private String[] usernamePassword;
+    private int logInOrCreateAccount = 0;
     Scanner scanner = new Scanner(System.in);
-    int exit = 0;
-    int loginSuccess;
-    int existingOrNew;
-    String websiteName;
-    int signOut = 0;
-    int generateOrEnter;
-    String websitePassword;
-    String userName;
+    private int exit = 0;
+    private int loginSuccess;
+    private int existingOrNew;
+    private String websiteName;
+    private int signOut = 0;
+    private int generateOrEnter;
+    private String websitePassword;
+    private String userName;
 
     // username, website, password
     private static Map<String, Map<String, String>> usernameMap = new HashMap<>();
@@ -36,100 +36,110 @@ class PasswordSafe {
 
     PasswordSafe() {
 
-        while (!(exit == 0)) {
-            System.out.println("\nWould you like to log in or create an account?\nPress 1 for log in.\nPress 2 for create account.");
-            logInOrCreateAccount = scanner.nextInt();
+        try {
+            while (exit == 0) {
 
-            if (logInOrCreateAccount == 1) {
+                System.out.println("\nWould you like to log in or create an account?\nPress 1 for log in.\nPress 2 for create account.");
+                logInOrCreateAccount = scanner.nextInt();
 
-                loginSuccess = login(usernamePassword[0], usernamePassword[1]);
-                
-                if (loginSuccess == 0) {
+                if (logInOrCreateAccount == 1) {
 
-                    System.out.println("Sorry! Try Again.");
+                    loginSuccess = login(usernamePassword[0], usernamePassword[1]);
+                    
+                    if (loginSuccess == 0) {
 
-                }
-                else {
+                        System.out.println("Sorry! Try Again.");
 
-                    while (!(signOut == 0)) {
-                        
-                        System.out.println("\nWould you like to acess an existing password or add a new password?\nPress 1 to access an existing password.\nPress 2 to add a new password.");
-                        existingOrNew = scanner.nextInt();
+                    }
+                    else {
 
-                        if (existingOrNew == 1) {
+                        while (signOut == 0) {
+                            
+                            System.out.println("\nWould you like to acess an existing password or add a new password?\nPress 1 to access an existing password.\nPress 2 to add a new password.");
+                            existingOrNew = scanner.nextInt();
 
-                            System.out.println("Enter the website you'd like to access: ");
-                            websiteName = scanner.next();
+                            if (existingOrNew == 1) {
 
-                            System.out.println("Enter the username for the website: ");
-                            userName = scanner.next();
+                                System.out.println("Enter the website you'd like to access: ");
+                                websiteName = scanner.next();
 
-                            System.out.println("The password is " + getUsernamePassword(userName, websiteName));
+                                System.out.println("Enter the username for the website: ");
+                                userName = scanner.next();
 
-                            System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
-                            signOut = scanner.nextInt();
+                                System.out.println("The password is " + getUsernamePassword(userName, websiteName));
 
-                        }
-                        else if (existingOrNew == 2) {
-
-                            System.out.println("Enter the website you'd like to add: ");
-                            websiteName = scanner.next();
-
-                            System.out.println("Enter the username you'd like to add: ");
-                            userName = scanner.next();
-
-                            System.out.println("Would you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
-                            generateOrEnter = scanner.nextInt();
-
-                            if (generateOrEnter == 1) {
-
-                                websitePassword = generateStrongPassword();
-                                System.out.println(websitePassword);
+                                System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                                signOut = scanner.nextInt();
 
                             }
-                            else if (generateOrEnter == 2) { 
+                            else if (existingOrNew == 2) {
 
-                                System.out.println("Enter a password: ");
-                                websitePassword = scanner.next();
+                                System.out.println("Enter the website you'd like to add: ");
+                                websiteName = scanner.next();
+
+                                System.out.println("Enter the username you'd like to add: ");
+                                userName = scanner.next();
+
+                                System.out.println("Would you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
+                                generateOrEnter = scanner.nextInt();
+
+                                if (generateOrEnter == 1) {
+
+                                    websitePassword = generateStrongPassword();
+                                    System.out.println(websitePassword);
+
+                                }
+                                else if (generateOrEnter == 2) { 
+
+                                    System.out.println("Enter a password: ");
+                                    websitePassword = scanner.next();
+
+                                }
+                                else {
+
+                                    System.out.println("Error.");
+
+                                }
+
+                                setUserToPassword(userName, websiteName, websitePassword);
+
+                                System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                                signOut = scanner.nextInt();
 
                             }
                             else {
 
                                 System.out.println("Error.");
 
-                            }
+                            } // end of if/else
 
-                            setUserToPassword(userName, websiteName, websitePassword);
+                            System.out.println("Would you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
+                            exit = scanner.nextInt();
 
-                            System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
-                            signOut = scanner.nextInt();
+                        } // end of while loop
 
-                        }
-                        else {
+                    } // end of if/else statement
 
-                            System.out.println("Error.");
+                }
+                else if (logInOrCreateAccount == 2) {
 
-                        } // end of if/else
-
-                        System.out.println("Would you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
-                        exit = scanner.nextInt();
-
-                    } // end of while loop
+                    this.usernamePassword = createAccount();
+                    System.out.println("Account successsfully created. You may log in now.");
 
                 } // end of if/else statement
 
-            }
-            else if (logInOrCreateAccount == 2) {
+            } // end of while loop
 
-                this.usernamePassword = createAccount();
-                System.out.println("Account successsfully created. You may log in now.");
+        } catch (Exception e) {
 
-            } // end of if/else statement
+            System.out.println(e.getMessage()); 
 
-        } // end of while loop
+        } // end of try/catch method
 
     } // end of BitByBit method
 
+
+    // logs the user in to their account
     private int login(String username, String password){
 
         boolean loginp = false;
@@ -185,6 +195,8 @@ class PasswordSafe {
 
     } // end of login method
 
+
+    // generates a strong password for the user
     private String generateStrongPassword() {
 
         SecureRandom random = new SecureRandom();
@@ -244,6 +256,7 @@ class PasswordSafe {
     } // end of generateStrongPassword method
 
 
+    // creates a new account for the user
     private String[] createAccount() {
 
         String username = "";
@@ -318,6 +331,7 @@ class PasswordSafe {
     } // end of getUsernameMap
 
 
+    // sets a new website username and password
     public static void setUserToPassword(String username, String website, String password) {
 
         // if the username already exists, get the map
