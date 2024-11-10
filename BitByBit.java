@@ -61,27 +61,27 @@ class PasswordSafe {
 
                             if (existingOrNew == 1) {
 
-                                System.out.println("Enter the website you'd like to access: ");
+                                System.out.println("\nEnter the website you'd like to access: ");
                                 websiteName = scanner.next();
 
-                                System.out.println("Enter the username for the website: ");
+                                System.out.println("\nEnter the username for the website: ");
                                 userName = scanner.next();
 
-                                System.out.println("The password is " + getUsernamePassword(userName, websiteName));
+                                System.out.println("\nThe password is " + getUsernamePassword(userName, websiteName));
 
-                                System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                                System.out.println("\nWould you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
                                 signOut = scanner.nextInt();
 
                             }
                             else if (existingOrNew == 2) {
 
-                                System.out.println("Enter the website you'd like to add: ");
+                                System.out.println("\nEnter the website you'd like to add: ");
                                 websiteName = scanner.next();
 
-                                System.out.println("Enter the username you'd like to add: ");
+                                System.out.println("\nEnter the username you'd like to add: ");
                                 userName = scanner.next();
 
-                                System.out.println("Would you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
+                                System.out.println("\nWould you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
                                 generateOrEnter = scanner.nextInt();
 
                                 if (generateOrEnter == 1) {
@@ -134,7 +134,7 @@ class PasswordSafe {
 
             System.out.println("\nWould you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
             exit = scanner.nextInt();
-            
+
         } // end of while loop
 
     } // end of BitByBit method
@@ -150,12 +150,12 @@ class PasswordSafe {
         
         while (!loginu) {
 
-            System.out.println("Please enter your username");
+            System.out.println("\nPlease enter your username.");
             String usernameinput = scanner.next();
             
             if (username.compareTo(usernameinput) != 0) {
 
-                System.out.println("Incorrect username entered");
+                System.out.println("Incorrect username entered.");
 
             }
             else {
@@ -168,7 +168,7 @@ class PasswordSafe {
         
         while (!loginp && i>0) { 
 
-            System.out.println("Please enter password");
+            System.out.println("\nPlease enter password");
             String passwordinput = scanner.next();
             
             if (password.compareTo(passwordinput) == 0) {
