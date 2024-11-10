@@ -21,7 +21,14 @@ class PasswordSafe {
     String[] usernamePassword;
     int logInOrCreateAccount = 0;
     Scanner scanner = new Scanner(System.in);
-    boolean exit = false;
+    int exit = 0;
+    int loginSuccess;
+    int existingOrNew;
+    String websiteName;
+    int signOut = 0;
+    int generateOrEnter;
+    String websitePassword;
+    String userName;
 
     // username, website, password
     private static Map<String, Map<String, String>> usernameMap = new HashMap<>();
@@ -29,14 +36,88 @@ class PasswordSafe {
 
     PasswordSafe() {
 
-        while (!exit) {
-            System.out.println("Would you like to log in or create an account?\nPress 1 for log in.\nPress 2 for create account.");
+        while (!(exit == 0)) {
+            System.out.println("\nWould you like to log in or create an account?\nPress 1 for log in.\nPress 2 for create account.");
             logInOrCreateAccount = scanner.nextInt();
 
             if (logInOrCreateAccount == 1) {
 
-                login(usernamePassword[0], usernamePassword[1]);
+                loginSuccess = login(usernamePassword[0], usernamePassword[1]);
                 
+                if (loginSuccess == 0) {
+
+                    System.out.println("Sorry! Try Again.");
+
+                }
+                else {
+
+                    while (!(signOut == 0)) {
+                        
+                        System.out.println("\nWould you like to acess an existing password or add a new password?\nPress 1 to access an existing password.\nPress 2 to add a new password.");
+                        existingOrNew = scanner.nextInt();
+
+                        if (existingOrNew == 1) {
+
+                            System.out.println("Enter the website you'd like to access: ");
+                            websiteName = scanner.next();
+
+                            System.out.println("Enter the username for the website: ");
+                            userName = scanner.next();
+
+                            System.out.println("The password is " + getUsernamePassword(userName, websiteName));
+
+                            System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                            signOut = scanner.nextInt();
+
+                        }
+                        else if (existingOrNew == 2) {
+
+                            System.out.println("Enter the website you'd like to add: ");
+                            websiteName = scanner.next();
+
+                            System.out.println("Enter the username you'd like to add: ");
+                            userName = scanner.next();
+
+                            System.out.println("Would you like to generate a password or enter a password yourself?\nEnter 1 for generate a password.\nEnter 2 to enter a password yourself.");
+                            generateOrEnter = scanner.nextInt();
+
+                            if (generateOrEnter == 1) {
+
+                                websitePassword = generateStrongPassword();
+                                System.out.println(websitePassword);
+
+                            }
+                            else if (generateOrEnter == 2) { 
+
+                                System.out.println("Enter a password: ");
+                                websitePassword = scanner.next();
+
+                            }
+                            else {
+
+                                System.out.println("Error.");
+
+                            }
+
+                            setUserToPassword(userName, websiteName, websitePassword);
+
+                            System.out.println("Would you like to sign out?\nPress 0 for no.\nPress 1 for yes.");
+                            signOut = scanner.nextInt();
+
+                        }
+                        else {
+
+                            System.out.println("Error.");
+
+                        } // end of if/else
+
+                        System.out.println("Would you like to exit the app?\nPress 0 for no.\nPress 1 for yes.");
+                        exit = scanner.nextInt();
+
+                    } // end of while loop
+
+                } // end of if/else statement
+
             }
             else if (logInOrCreateAccount == 2) {
 
@@ -125,26 +206,35 @@ class PasswordSafe {
 
             switch (nextItem) {
                 case 0:
+
                     // number
                     nextInt = random.nextInt(10);
                     generatedPassword = generatedPassword + nextInt;
                     nextItem = random.nextInt(3);
                     break;
+
                 case 1:
+
                     // character
                     nextInt = random.nextInt(50);
                     nextChar = characters[nextInt];
                     generatedPassword = generatedPassword + nextChar;
                     nextItem = random.nextInt(3);
                     break;
+
                 case 2:
+
+                    // punctuation
                     nextInt = random.nextInt(5);
                     nextPunctuation = punctuation[nextInt];
                     generatedPassword = generatedPassword + nextPunctuation;
                     nextItem = random.nextInt(3);
                     break;
+
                 default:
+
                     break;
+
             } // end of switch statement
 
         } // end of for loop
@@ -166,12 +256,12 @@ class PasswordSafe {
         Pattern numberchar = Pattern.compile("\\d");
         boolean complete = false;    
         
-        System.out.println("please enter username");
+        System.out.println("Please Enter Username: ");
         username = scanner.next(); // include map check for each username
 
         while (!complete){
 
-            System.out.println("please enter a password: must be at least 15 characters long and must include both a special character and a number");
+            System.out.println("Please enter a password\nMust be at least 15 characters long and must include both a special character and a number.");
             password = scanner.next();
             
             Matcher matcher_s = specialchar.matcher(password);
@@ -186,14 +276,14 @@ class PasswordSafe {
 
                     if (password.length() >= 15) {
 
-                        System.out.println("password accepted");
+                        System.out.println("Password Accepted");
                         complete = true;
                         //add user and password function
 
                     }
                     else {
 
-                        System.out.println("please use at least 15 characters in your password");
+                        System.out.println("Please use at least 15 characters in your password.");
 
                     }
 
@@ -201,14 +291,14 @@ class PasswordSafe {
             
                 else{
 
-                    System.out.println("please use a number in your password");
+                    System.out.println("Please use a number in your password.");
 
                 }
 
             }
             else {
 
-                System.out.println("please use one of the special characters: !@#$%^&* in your password");
+                System.out.println("Please use one of the special characters !@#$%^&* in your password.");
 
             }
         }
@@ -218,6 +308,7 @@ class PasswordSafe {
     
     } // end of createAccount method
 
+
     // method that returns the map for the coressponding user
     private static Map getUsernameMap(String username) { 
 
@@ -225,6 +316,7 @@ class PasswordSafe {
         return userMap;
 
     } // end of getUsernameMap
+
 
     public static void setUserToPassword(String username, String website, String password) {
 
@@ -245,6 +337,7 @@ class PasswordSafe {
 
     } // end of setUserToPassword method
 
+
     // fetch the website's corresponding password
     private static String getWebsitePassword(String website, Map map) {
 
@@ -252,6 +345,7 @@ class PasswordSafe {
         return password;
 
     } // end of getWebsitePassword
+
 
     // fetch the username's password
     public static String getUsernamePassword(String username, String website) {
